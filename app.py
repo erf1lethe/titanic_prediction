@@ -36,7 +36,7 @@ cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 # Preprocesar las variables categóricas
 def preprocesar_datos(input_data):
-    input_data['gender'] = 1 if input_data['gender'] == 'Masculino' else 0
+    input_data['gender'] = 1 if input_data['gender'] == "Masculino" else 0
     input_data['embarked'] = 1 if input_data['embarked'] == 'S' else (0 if input_data['embarked'] == 'Q' else 2)
     input_data['pclass'] = 1 if input_data['pclass'] == '1' else (2 if input_data['pclass'] == '2' else 3)
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
