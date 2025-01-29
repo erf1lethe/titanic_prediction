@@ -26,8 +26,8 @@ st.sidebar.header("Introduce las características del pasajero")
 
 # Variables categóricas y numéricas
 gender = st.sidebar.selectbox("Género", ['Femenino', 'Masculino'])
-sibsp = st.sidebar.number_input("Número de hijos y/o esposo abordo", min_value=0, max_value=10, value=12)
-parch = st.sidebar.number_input("Número de parientes abordo", min_value=0, max_value=10, value=12)
+sibsp = st.sidebar.number_input("Número de hijos y/o esposo abordo", min_value=0, max_value=10)
+parch = st.sidebar.number_input("Número de parientes abordo", min_value=0, max_value=10)
 age = st.sidebar.number_input("Edad", min_value=0, max_value=90, value=12)
 embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
 pclass = st.sidebar.selectbox("Clase social", ["1", "2", "3"])
