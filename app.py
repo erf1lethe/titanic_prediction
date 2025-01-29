@@ -4,64 +4,68 @@ import pandas as pd
 import numpy as np
 
 # Cargar el modelo guardado
-@st.cache
+@st.cache_resource  # Reemplazado por la nueva versión en Streamlit
 def cargar_modelo():
-    with open('model.pck', 'rb') as file:
-        return pickle.load(file)
+    try:
+        with open('model.pck', 'rb') as file:
+            return pickle.load(file)
+    except FileNotFoundError:
+        st.error("Error: El archivo del modelo no se encuentra. Asegúrate de que 'model.pck' está en el directorio correcto.")
+        return None
+    except Exception as e:
+        st.error(f"Error al cargar el modelo: {e}")
+        return None
 
 # Cargar el modelo
 modelo_regresion = cargar_modelo()
 
-# Título de la app
-st.title("Predicción de Titanic - Modelo de Regresión Logistica")
+st.title("Predicción de Titanic - Modelo de Regresión Logística")
 
-# Explicación de la app
 st.write("""
-Esta aplicación utiliza un modelo de regresión logistica entrenado sobre el dataset Titanic para predecir si el pasajero sobrevivío al accidente.
+Esta aplicación utiliza un modelo de regresión logística entrenado sobre el dataset Titanic para predecir si el pasajero sobrevivió al accidente.
 Introduce los valores de las variables para hacer una predicción.
 """)
 
 # Entradas del usuario
 st.sidebar.header("Introduce las características del pasajero")
 
-# Variables categóricas y numéricas
 gender = st.sidebar.selectbox("Género", ['Femenino', 'Masculino'])
-sibsp = st.sidebar.number_input("Número de hijos y/o esposo abordo", min_value=0, max_value=10)
-parch = st.sidebar.number_input("Número de parientes abordo", min_value=0, max_value=10)
-age = st.sidebar.number_input("Edad", min_value=0, max_value=90, value=12)
+sibsp = st.sidebar.number_input("Número de hijos y/o esposo a bordo", min_value=0, max_value=10, step=1, value=0)
+parch = st.sidebar.number_input("Número de parientes a bordo", min_value=0, max_value=10, step=1, value=0)
+age = st.sidebar.number_input("Edad", min_value=0, max_value=90, step=1, value=30)
 embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
-pclass = st.sidebar.selectbox("Clase social", ["1", "2", "3"])
-fare = st.sidebar.number_input("Tarifa", min_value=0, value=70)
+pclass = st.sidebar.selectbox("Clase social", [1, 2, 3])
+fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
 cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 # Preprocesar las variables categóricas
 def preprocesar_datos(input_data):
-    input_data['gender'] = 1 if input_data['gender'] == "Masculino" else 0
-    input_data['embarked'] = 1 if input_data['embarked'] == 'S' else (0 if input_data['embarked'] == 'Q' else 2)
-    input_data['pclass'] = 1 if input_data['pclass'] == '1' else (2 if input_data['pclass'] == '2' else 3)
+    input_data['gender'] = 1 if input_data['gender'] == 'Masculino' else 0
+    input_data['embarked'] = {'S': 1, 'Q': 0, 'C': 2}.get(input_data['embarked'], 1)
+    input_data['pclass'] = int(input_data['pclass'])  # Asegurar que sea un entero
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
-   
-    
     return input_data
 
 # Crear un DataFrame con los datos introducidos
-nuevos_datos = pd.DataFrame({
-    'gender': [gender],
-    'age' : [age],
-    'sibsp': [sibsp],
-    'parch': [parch],
-    'fare': [fare],
-    'embarked': [embarked],
-    'pclass': [pclass],
-    'cabin': [cabin]
-})
+nuevos_datos = pd.DataFrame([{  # Se usa lista de diccionario para evitar problemas con DataFrame vacío
+    'gender': gender,
+    'age': age,
+    'sibsp': sibsp,
+    'parch': parch,
+    'fare': fare,
+    'embarked': embarked,
+    'pclass': pclass,
+    'cabin': cabin
+}])
 
-# Preprocesar los datos antes de hacer la predicción
-nuevos_datos_procesados = preprocesar_datos(nuevos_datos)
+# Preprocesar los datos
+nuevos_datos_procesados = preprocesar_datos(nuevos_datos.iloc[0].to_dict())
+nuevos_datos_procesados = pd.DataFrame([nuevos_datos_procesados])
 
-# Realizar la predicción con el modelo cargado
-if st.sidebar.button('Predecir'):
-    prediccion = modelo_regresion.predict(nuevos_datos_procesados)
-    
-    # Mostrar el resultado
-    st.write(f"La predicción del modelo es: {prediccion[0]:.2f}")
+# Verificar que el modelo se cargó correctamente antes de predecir
+if modelo_regresion and st.sidebar.button('Predecir'):
+    try:
+        prediccion = modelo_regresion.predict(nuevos_datos_procesados)
+        st.write(f"La predicción del modelo es: {'Sobrevivió' if prediccion[0] == 1 else 'No sobrevivió'}")
+    except Exception as e:
+        st.error(f"Error al hacer la predicción: {e}")
