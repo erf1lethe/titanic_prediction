@@ -6,28 +6,28 @@ import numpy as np
 # Cargar el modelo guardado
 @st.cache
 def cargar_modelo():
-    with open('churn-model.pck', 'rb') as file:
+    with open('model.pck', 'rb') as file:
         return pickle.load(file)
 
 # Cargar el modelo
 modelo_regresion = cargar_modelo()
 
 # Título de la app
-st.title("Predicción de Titanic - Modelo de Regresión Lineal")
+st.title("Predicción de Titanic - Modelo de Regresión Logistica")
 
 # Explicación de la app
 st.write("""
-Esta aplicación utiliza un modelo de regresión lineal entrenado sobre el dataset Telco para predecir características relacionadas con clientes de telecomunicaciones.
+Esta aplicación utiliza un modelo de regresión logistica entrenado sobre el dataset Titanic para predecir si el pasajero sobrevivío al accidente.
 Introduce los valores de las variables para hacer una predicción.
 """)
 
 # Entradas del usuario
-st.sidebar.header("Introduce las características del cliente")
+st.sidebar.header("Introduce las características del pasajero")
 
 # Variables categóricas y numéricas
 gender = st.sidebar.selectbox("Género", ['Femenino', 'Masculino'])
 sibsp = st.sidebar.number_input("Número de hijos y/o esposo abordo", min_value=0, max_value=10, value=12)
-parch = st.sidebar.number_input("Número de parientes", min_value=0, max_value=10, value=12)
+parch = st.sidebar.number_input("Número de parientes abordo", min_value=0, max_value=10, value=12)
 age = st.sidebar.number_input("Edad", min_value=0, max_value=90, value=12)
 embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
 pclass = st.sidebar.selectbox("Clase social", ["1", "2", "3"])
@@ -52,9 +52,8 @@ nuevos_datos = pd.DataFrame({
     'parch': [parch],
     'fare': [fare],
     'embarked': [embarked],
-    'ticket': [ticket],
     'pclass': [pclass],
-    'cabin': [cabin],
+    'cabin': [cabin]
 })
 
 # Preprocesar los datos antes de hacer la predicción
