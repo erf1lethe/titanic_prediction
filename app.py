@@ -2,22 +2,12 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
+from sklearn.feature_extraction import DictVectorizer
 
-# Cargar el modelo guardado
-@st.cache_resource  # Reemplazado por la nueva versión en Streamlit
-def cargar_modelo():
-    try:
-        with open('model.pck', 'rb') as file:
-            return pickle.load(file)
-    except FileNotFoundError:
-        st.error("Error: El archivo del modelo no se encuentra. Asegúrate de que 'model.pck' está en el directorio correcto.")
-        return None
-    except Exception as e:
-        st.error(f"Error al cargar el modelo: {e}")
-        return None
+# Cargar el modelo y el DictVectorizer
+with open('churn.pck', 'rb') as f:
+    dv, model = pickle.load(f)
 
-# Cargar el modelo
-modelo_regresion = cargar_modelo()
 
 st.title("Predicción de Titanic - Modelo de Regresión Logística")
 
@@ -58,14 +48,15 @@ nuevos_datos = pd.DataFrame([{  # Se usa lista de diccionario para evitar proble
     'cabin': cabin
 }])
 
-# Preprocesar los datos
-nuevos_datos_procesados = preprocesar_datos(nuevos_datos.iloc[0].to_dict())
-nuevos_datos_procesados = pd.DataFrame([nuevos_datos_procesados])
+    # Transformar los datos del cliente
+X_passenger= dv.transform([nuevos_datos])
 
-# Verificar que el modelo se cargó correctamente antes de predecir
-if modelo_regresion and st.sidebar.button('Predecir'):
-    try:
-        prediccion = modelo_regresion.predict_proba(nuevos_datos_procesados)
-        st.write(f"La predicción del modelo es: {'Sobrevivió' if prediccion[0] == 1 else 'No sobrevivió'}")
-    except Exception as e:
-        st.error(f"Error al hacer la predicción: {e}")
+    # Realizar la predicción
+y_pred_proba = model.predict_proba(X_passenger)[0][1]  # Probabilidad de churn
+
+# Mostrar resultado
+st.subheader("Resultado:")
+if y_pred_proba > 0.5:
+    st.error(f"El pasajero sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
+else:
+    st.success(f"El pasajero no sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
