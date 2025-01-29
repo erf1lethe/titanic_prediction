@@ -49,14 +49,14 @@ if st.button("Predecir"):
 }
 
     # Transformar los datos del cliente
-X_passenger= dv.transform([nuevos_datos])
+    X_passenger= dv.transform([nuevos_datos])
 
     # Realizar la predicción
-y_pred_proba = model.predict_proba(X_passenger)[0][1]  # Probabilidad de churn
+    y_pred_proba = model.predict_proba(X_passenger)[0][1]  # Probabilidad de churn
 
 # Mostrar resultado
-st.subheader("Resultado:")
-if y_pred_proba > 0.5:
-    st.error(f"El pasajero sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
-else:
-    st.success(f"El pasajero no sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
+    st.subheader("Resultado:")
+    if y_pred_proba > 0.5:
+        st.error(f"El pasajero sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
+    else:
+        st.success(f"El pasajero no sobrevivio con una probabilidad de: {y_pred_proba:.2f}")
