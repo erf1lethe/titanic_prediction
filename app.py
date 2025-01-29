@@ -52,7 +52,7 @@ if st.button("Predecir"):
     X_passenger= dv.transform([nuevos_datos])
 
     # Realizar la predicción
-    y_pred_proba = model.predict_proba(X_passenger)[0][1]  # Probabilidad de churn
+    y_pred_proba = model.predict_proba(X_passenger)[:,1]
 
 # Mostrar resultado
     st.subheader("Resultado:")
