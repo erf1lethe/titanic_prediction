@@ -36,7 +36,8 @@ def preprocesar_datos(input_data):
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
     return input_data
 
-nuevos_datos = {  
+if st.button("Predecir"):
+    nuevos_datos = {  
     'gender': gender,
     'age': age,
     'sibsp': sibsp,
