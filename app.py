@@ -4,11 +4,23 @@ import pandas as pd
 import numpy as np
 
 # Cargar el modelo guardado
-@st.cache_resource  # Reemplazado por la nueva versión en Streamlit
+@st.cache_resource
 def cargar_modelo():
     try:
         with open('model.pck', 'rb') as file:
-            return pickle.load(file)
+            modelo = pickle.load(file)
+
+            # Si el modelo es una tupla, extraemos el primer elemento
+            if isinstance(modelo, tuple):
+                modelo = modelo[0]
+
+            # Verificar si el modelo tiene el método predict
+            if not hasattr(modelo, "predict"):
+                st.error("El archivo de modelo no contiene un modelo válido.")
+                return None
+
+            return modelo
+
     except FileNotFoundError:
         st.error("Error: El archivo del modelo no se encuentra. Asegúrate de que 'model.pck' está en el directorio correcto.")
         return None
