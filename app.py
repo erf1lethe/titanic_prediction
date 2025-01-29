@@ -36,8 +36,7 @@ def preprocesar_datos(input_data):
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
     return input_data
 
-# Crear un DataFrame con los datos introducidos
-nuevos_datos = pd.DataFrame([{  # Se usa lista de diccionario para evitar problemas con DataFrame vacío
+nuevos_datos = {  
     'gender': gender,
     'age': age,
     'sibsp': sibsp,
@@ -46,7 +45,7 @@ nuevos_datos = pd.DataFrame([{  # Se usa lista de diccionario para evitar proble
     'embarked': embarked,
     'pclass': pclass,
     'cabin': cabin
-}])
+}
 
     # Transformar los datos del cliente
 X_passenger= dv.transform([nuevos_datos])
