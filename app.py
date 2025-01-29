@@ -15,7 +15,7 @@ def cargar_modelo():
     except Exception as e:
         st.error(f"Error al cargar el modelo: {e}")
         return None
-        
+
 # Cargar el modelo
 modelo_regresion = cargar_modelo()
 
@@ -65,7 +65,7 @@ nuevos_datos_procesados = pd.DataFrame([nuevos_datos_procesados])
 # Verificar que el modelo se cargó correctamente antes de predecir
 if modelo_regresion and st.sidebar.button('Predecir'):
     try:
-        prediccion = modelo_regresion.predict(nuevos_datos_procesados)
+        prediccion = modelo_regresion.predict_proba(nuevos_datos_procesados)
         st.write(f"La predicción del modelo es: {'Sobrevivió' if prediccion[0] == 1 else 'No sobrevivió'}")
     except Exception as e:
         st.error(f"Error al hacer la predicción: {e}")
