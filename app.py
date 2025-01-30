@@ -59,7 +59,7 @@ if st.button("Predecir"):
     st.write("Datos del pasajero:", nuevos_datos)
 
     # Transformar las características del pasajero con el DictVectorizer
-    X_passenger = dv.transform([nuevos_datos])
+    X_passenger = dv.transform.fit([nuevos_datos])
 
     # Realizar la predicción
     y_pred = model.predict_proba(X_passenger)
