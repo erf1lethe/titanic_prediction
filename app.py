@@ -57,6 +57,6 @@ if st.button("Predecir"):
 # Mostrar resultado
     st.subheader("Resultado:")
     if y_pred_proba >= 0.5:
-        st.success(f"El pasajero sobrevivio")
+        print("El pasajero sobrevivio")
     else:
-        st.error(f"El pasajero no sobrevivio ")
+        print("El pasajero no sobrevivio ")
