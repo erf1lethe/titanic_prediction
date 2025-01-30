@@ -46,7 +46,7 @@ if st.button("Predecir"):
         'Parch': Parch,
         'Fare': Fare,
         'Embarked': Embarked,
-        'Pclass': pclass,
+        'Pclass': Pclass,
         'Cabin': Cabin
     }
 
