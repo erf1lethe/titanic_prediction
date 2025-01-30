@@ -29,7 +29,7 @@ Parch = st.sidebar.number_input("Número de parientes a bordo", min_value=0, max
 Age = st.sidebar.number_input("Edad", min_value=0, max_value=90, step=1, value=30)
 Embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
 Pclass = st.sidebar.selectbox("Clase social", [1, 2, 3])
-Fare = st.sidebar.number_input("Tarifa", min_value=0, value=30)
+Fare = st.sidebar.number_input("Tarifa", min_value=0.000, max_value=1000.000 value=30.000)
 Cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 if st.button("Predecir"):
