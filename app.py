@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.feature_extraction import DictVectorizer
 
 # Cargar el modelo y el DictVectorizer
-with open('churn.pck', 'rb') as f:
+with open('model.pck', 'rb') as f:
     dv, model = pickle.load(f)
 
 st.title("Predicción de Titanic - Modelo de Regresión Logística")
