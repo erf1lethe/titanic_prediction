@@ -61,7 +61,7 @@ if st.button("Predecir"):
 
     # Mostrar el resultado
     st.subheader("Resultado:")
-    if y_pred >= 0.5:
+    if y_pred > 0.5:
         st.success(f"El pasajero sobrevivió con una probabilidad de {y_pred[0]*100:.2f}%")
     else:
         st.error(f"El pasajero no sobrevivió con una probabilidad de {(1-y_pred[0])*100:.2f}%")
