@@ -43,11 +43,11 @@ if st.button("Predecir"):
         'Gender': Gender,
         'Age': Age,
         'Sibsp': SibSp,
-        'Parch': parch,
-        'Fare': fare,
-        'Embarked': embarked,
+        'Parch': Parch,
+        'Fare': Fare,
+        'Embarked': Embarked,
         'Pclass': pclass,
-        'Cabin': cabin
+        'Cabin': Cabin
     }
 
     # Verifica los datos antes de la transformación
