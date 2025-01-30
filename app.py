@@ -34,8 +34,14 @@ Cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 if st.button("Predecir"):
     # Convertir valores categóricos a representaciones numéricas
-    Gender = 1 if Gender == 'Masculino' else 0
-    Cabin = 1 if Cabin == 'Sí' else 0
+    if Gender == 'Masculino': 
+    Gender = 1
+    else: 
+    Gender = 0
+    if Cabin == 'Sí':
+    Cabin = 1
+    else: 
+    Cabin=0
     Embarked = 1 if Embarked == 'Q' else (0 if Embarked == 'S' else 2)
     
     nuevos_datos = {  
