@@ -1,12 +1,17 @@
 import streamlit as st
 import pickle
 import pandas as pd
-import numpy as np
 from sklearn.feature_extraction import DictVectorizer
 
 # Cargar el modelo y el DictVectorizer
 with open('model.pck', 'rb') as f:
     dv, model = pickle.load(f)
+
+# Verificar que el modelo y el vectorizador son correctos
+st.write(f"Tipo de DictVectorizer: {type(dv)}")
+st.write(f"Tipo de modelo: {type(model)}")
+st.write("Características que espera el DictVectorizer:")
+st.write(dv.get_feature_names_out())
 
 st.title("Predicción de Titanic - Modelo de Regresión Logística")
 
@@ -45,6 +50,9 @@ if st.button("Predecir"):
         'cabin': cabin
     }
 
+    # Verifica los datos antes de la transformación
+    st.write("Datos del pasajero:", nuevos_datos)
+
     # Transformar las características del pasajero con el DictVectorizer
     X_passenger = dv.transform([nuevos_datos])
 
@@ -57,4 +65,5 @@ if st.button("Predecir"):
         st.success(f"El pasajero sobrevivió con una probabilidad de {y_pred[0]*100:.2f}%")
     else:
         st.error(f"El pasajero no sobrevivió con una probabilidad de {(1-y_pred[0])*100:.2f}%")
+
 
