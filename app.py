@@ -61,7 +61,7 @@ if st.button("Predecir"):
 
     # Mostrar el resultado
     st.subheader("Resultado:")
-    print (y_pred)
+    st.success(y_pred)
    
 
 
