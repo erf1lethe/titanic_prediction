@@ -28,25 +28,33 @@ fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
 cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 if st.button("Predecir"):
+    # Convertir valores categóricos a representaciones numéricas
+    gender = 1 if gender == 'Masculino' else 0
+    cabin = 1 if cabin == 'Sí' else 0
+    embarked_dict = {'S': 0, 'Q': 1, 'C': 2}  # Representación numérica del puerto
+    embarked = embarked_dict.get(embarked, 0)
+    
     nuevos_datos = {  
-    'gender': gender,
-    'age': age,
-    'sibsp': sibsp,
-    'parch': parch,
-    'fare': fare,
-    'embarked': embarked,
-    'pclass': pclass,
-    'cabin': cabin
-}
+        'gender': gender,
+        'age': age,
+        'sibsp': sibsp,
+        'parch': parch,
+        'fare': fare,
+        'embarked': embarked,
+        'pclass': pclass,
+        'cabin': cabin
+    }
 
+    # Transformar las características del pasajero con el DictVectorizer
     X_passenger = dv.transform([nuevos_datos])
 
     # Realizar la predicción
-    y_pred = model.predict_proba(X_passenger)[:,1]
+    y_pred = model.predict_proba(X_passenger)[:, 1]
 
-# Mostrar resultado
+    # Mostrar el resultado
     st.subheader("Resultado:")
     if y_pred >= 0.5:
-        st.success(f"El pasajero sobrevivio")
+        st.success(f"El pasajero sobrevivió con una probabilidad de {y_pred[0]*100:.2f}%")
     else:
-        st.error(f"El pasajero no sobrevivio ")
+        st.error(f"El pasajero no sobrevivió con una probabilidad de {(1-y_pred[0])*100:.2f}%")
+
