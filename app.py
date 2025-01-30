@@ -36,8 +36,7 @@ if st.button("Predecir"):
     # Convertir valores categóricos a representaciones numéricas
     Gender = 1 if Gender == 'Masculino' else 0
     Cabin = 1 if Cabin == 'Sí' else 0
-    Embarked_dict = {'S': 0, 'Q': 1, 'C': 2}  # Representación numérica del puerto
-    Embarked = Embarked_dict.get(Embarked, 0)
+    Embarked = 1 if Embarked == 'Q' else (0 if Embarked == 'S' else 2)
     
     nuevos_datos = {  
         'Gender': Gender,
