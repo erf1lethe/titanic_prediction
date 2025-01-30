@@ -57,7 +57,7 @@ if st.button("Predecir"):
     X_passenger = dv.transform([nuevos_datos])
 
     # Realizar la predicción
-    y_pred = model.predict_proba(X_passenger)[:, 1]
+    y_pred = model.predict_proba(X_passenger)[0][1]
 
     # Mostrar el resultado
     st.subheader("Resultado:")
