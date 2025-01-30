@@ -29,12 +29,12 @@ fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
 cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 # Preprocesar las variables categóricas
-def preprocesar_datos(input_data):
+"""def preprocesar_datos(input_data):
     input_data['gender'] = 1 if input_data['gender'] == 'Masculino' else 0
     input_data['embarked'] = {'S': 1, 'Q': 0, 'C': 2}.get(input_data['embarked'], 1)
     input_data['pclass'] = int(input_data['pclass'])  # Asegurar que sea un entero
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
-    return input_data
+    return input_data"""
 
 if st.button("Predecir"):
     nuevos_datos = {  
