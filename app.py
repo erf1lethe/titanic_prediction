@@ -2,14 +2,11 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
+from sklearn.feature_extraction import DictVectorizer
 
-@st.cache
-def cargar_modelo():
-    with open('model.pck', 'rb') as file:
-        return pickle.load(file)
-
-# Cargar el modelo
-model = cargar_modelo()
+# Cargar el modelo y el DictVectorizer
+with open('churn.pck', 'rb') as f:
+    dv, model = pickle.load(f)
 
 st.title("Predicción de Titanic - Modelo de Regresión Logística")
 
@@ -39,7 +36,7 @@ def preprocesar_datos(input_data):
     return input_data
 
 if st.button("Predecir"):
-    nuevos_datos = pd.DataFrame({  
+    nuevos_datos = {  
     'gender': gender,
     'age': age,
     'sibsp': sibsp,
@@ -48,7 +45,7 @@ if st.button("Predecir"):
     'embarked': embarked,
     'pclass': pclass,
     'cabin': cabin
-})
+}
 
     X_passenger = preprocesar_datos(nuevos_datos)
 
