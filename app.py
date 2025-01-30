@@ -63,7 +63,7 @@ if st.button("Predecir"):
 
     # Realizar la predicción
     
-    y_pred = model.predict_proba(X_passenger)[:,0]
+    y_pred = model.predict_proba(X_passenger)
 
     # Mostrar el resultado
     st.subheader("Resultado:")
