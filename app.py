@@ -23,31 +23,31 @@ Introduce los valores de las variables para hacer una predicción.
 # Entradas del usuario
 st.sidebar.header("Introduce las características del pasajero")
 
-gender = st.sidebar.selectbox("Género", ['Femenino', 'Masculino'])
-sibsp = st.sidebar.number_input("Número de hijos y/o esposo a bordo", min_value=0, max_value=10, step=1, value=0)
-parch = st.sidebar.number_input("Número de parientes a bordo", min_value=0, max_value=10, step=1, value=0)
-age = st.sidebar.number_input("Edad", min_value=0, max_value=90, step=1, value=30)
-embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
-pclass = st.sidebar.selectbox("Clase social", [1, 2, 3])
-fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
-cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
+Gender = st.sidebar.selectbox("Género", ['Femenino', 'Masculino'])
+SibSp = st.sidebar.number_input("Número de hijos y/o esposo a bordo", min_value=0, max_value=10, step=1, value=0)
+Parch = st.sidebar.number_input("Número de parientes a bordo", min_value=0, max_value=10, step=1, value=0)
+Sge = st.sidebar.number_input("Edad", min_value=0, max_value=90, step=1, value=30)
+Embarked = st.sidebar.selectbox("Puerto de embarque", ['S', 'Q', 'C'])
+Pclass = st.sidebar.selectbox("Clase social", [1, 2, 3])
+Fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
+Cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 if st.button("Predecir"):
     # Convertir valores categóricos a representaciones numéricas
-    gender = 1 if gender == 'Masculino' else 0
-    cabin = 1 if cabin == 'Sí' else 0
-    embarked_dict = {'S': 0, 'Q': 1, 'C': 2}  # Representación numérica del puerto
-    embarked = embarked_dict.get(embarked, 0)
+    Gender = 1 if Gender == 'Masculino' else 0
+    Cabin = 1 if Cabin == 'Sí' else 0
+    Embarked_dict = {'S': 0, 'Q': 1, 'C': 2}  # Representación numérica del puerto
+    Embarked = Embarked_dict.get(Embarked, 0)
     
     nuevos_datos = {  
-        'gender': gender,
-        'age': age,
-        'sibsp': sibsp,
-        'parch': parch,
-        'fare': fare,
-        'embarked': embarked,
-        'pclass': pclass,
-        'cabin': cabin
+        'Gender': Gender,
+        'Age': Age,
+        'Sibsp': SibSp,
+        'Parch': parch,
+        'Fare': fare,
+        'Embarked': embarked,
+        'Pclass': pclass,
+        'Cabin': cabin
     }
 
     # Verifica los datos antes de la transformación
