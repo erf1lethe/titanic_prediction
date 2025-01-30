@@ -2,12 +2,14 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-from sklearn.feature_extraction import DictVectorizer
 
-# Cargar el modelo y el DictVectorizer
-with open('model.pck', 'rb') as f:
-    dv, model = pickle.load(f)
+@st.cache
+def cargar_modelo():
+    with open('model.pck', 'rb') as file:
+        return pickle.load(file)
 
+# Cargar el modelo
+model = cargar_modelo()
 
 st.title("Predicción de Titanic - Modelo de Regresión Logística")
 
@@ -29,15 +31,15 @@ fare = st.sidebar.number_input("Tarifa", min_value=0.0, value=30.0, step=0.1)
 cabin = st.sidebar.selectbox("Tiene cabina", ['Sí', 'No'])
 
 # Preprocesar las variables categóricas
-"""def preprocesar_datos(input_data):
+def preprocesar_datos(input_data):
     input_data['gender'] = 1 if input_data['gender'] == 'Masculino' else 0
     input_data['embarked'] = {'S': 1, 'Q': 0, 'C': 2}.get(input_data['embarked'], 1)
     input_data['pclass'] = int(input_data['pclass'])  # Asegurar que sea un entero
     input_data['cabin'] = 1 if input_data['cabin'] == 'Sí' else 0
-    return input_data"""
+    return input_data
 
 if st.button("Predecir"):
-    nuevos_datos = {  
+    nuevos_datos = pd.DataFrame({  
     'gender': gender,
     'age': age,
     'sibsp': sibsp,
@@ -46,10 +48,9 @@ if st.button("Predecir"):
     'embarked': embarked,
     'pclass': pclass,
     'cabin': cabin
-}
+})
 
-    # Transformar los datos del cliente
-    X_passenger= dv.transform([nuevos_datos])
+    X_passenger = preprocesar_datos(nuevos_datos)
 
     # Realizar la predicción
     y_pred_proba = model.predict_proba(X_passenger)[0][1]
