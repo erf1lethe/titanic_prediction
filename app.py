@@ -53,10 +53,11 @@ if st.button("Predecir"):
 
     # Realizar la predicción
     y_pred_proba = model.predict_proba(X_passenger)[:,1]
+    Survived = y_pred_proba>=0.5
 
 # Mostrar resultado
     st.subheader("Resultado:")
-    if y_pred_proba >= 0.5:
+    if Survived == "True":
         st.success(f"El pasajero sobrevivio")
     else:
-        st.success(f"El pasajero no sobrevivio ")
+        st.error(f"El pasajero no sobrevivio ")
